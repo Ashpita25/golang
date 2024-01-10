@@ -39,7 +39,7 @@ func main () {
         }
         fmt.Println (fmt.Sprintf ("User: %s with  age %d", user.Name, user.Age))
     }
-    defer insert.Close()
+
 defer db.Close ()
 }
 
