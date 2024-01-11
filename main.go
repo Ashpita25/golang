@@ -1,18 +1,23 @@
-package main
+ package main
+ import (
+       "fmt"
+     "net/http"
+     "html/template"
+     )
+   func index (w http.ResponseWriter, r *http.Request) {
+   t, err :=template.ParseFiles ("templates/index.html", "templates/footer.html", "templates/header.html")
+     if err != nil {
+   panic (err)
+        fmt.Fprintf (w, err.Error())
+    }
+    t.ExecuteTemplate (w, "index", nil)
+   }
 
-import (
-      "fmt"
-      "database/sql"
-      _ "github.com/go-sql-driver/mysql"
-    )
-
+    func handleFunc () {
+       // http.Handle ("/static/", http.StripPrefix("/static/", http.FileServer (http.Dir("./static/"))))
+       http.HandleFunc ("/", index)
+      http.ListenAndServe (":8080", nil)
+     }
 func main () {
-
-  db, err := sql.Open ("mysql", "root:@tcp(127.0.0.1:3306)/golang")
-  if err != nil {
-    panic(err)
+   handleFunc()
   }
-
-  defer db.Close ()
-  fmt.Println ("Подключено к MySQL")
-}
