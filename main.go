@@ -2,44 +2,33 @@ package main
 
 import (
       "fmt"
-      "database/sql"
-      _ "github.com/go-sql-driver/mysql"
+      //"database/sql"
+      "net/http"
+      "html/template"
+      //_ "github.com/go-sql-driver/mysql"
     )
-type User struct {
-    Name string `json:"name"`
-    Age uint16 `json:'age'`
 
+    func create (w http.ResponseWriter, r *http.Request) {
+            t, err := template.ParseFiles ("templates/index.html", "templates/header.html", "templates/footer.html")
+            if err!= nil {
+            fmt.Println (w, err.Error())
+            }
+            t.ExecuteTemplate (w, "index", nil)
+    }
+
+func index (w http.ResponseWriter, r *http.Request) {
+        t, err := template.ParseFiles ("templates/index.html", "templates/header.html", "templates/footer.html")
+        if err!= nil {
+        fmt.Println (w, err.Error())
+        }
+        t.ExecuteTemplate (w, "index", nil)
+}
+func handleFunc () {
+    http.HandleFunc ("/", index)
+    http.HandleFunc ("/create", create)
+    http.ListenAndServe (":8080", nil)
 }
 func main () {
-
-  db, err := sql.Open ("mysql", "root:@tcp(127.0.0.1:3306)/golang")
-  if err != nil {
-    panic(err)
-  }
-
-
-  // Установка данных
- // insert, err := db.Query ("INSERT INTO `users`(`name`, `age`) VALUES ('Kieran', 9)")
-  //if err != nil{
-   // panic (err)
-    //}
-    //defer insert.Close()
-//Выборка данных
-    res, err := db.Query ("SELECT `name`, `age` FROM `users`")
-    if err != nil {
-    panic (err)
-    }
-    for res.Next() {
-    var user User
-    err = res.Scan(&user.Name, &user.Age)
-       if err != nil {
-        panic (err)
-
-
-        }
-        fmt.Println (fmt.Sprintf ("User: %s with  age %d", user.Name, user.Age))
-    }
-
-defer db.Close ()
+        handleFunc ()
 }
 
