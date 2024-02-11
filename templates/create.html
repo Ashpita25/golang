@@ -1,0 +1,25 @@
+{{define "create"}}
+
+{{ template "header"}}
+
+    <main class="px-3">
+        <h1 class="cover-container">Введите ниже Ваши данные</h1>
+        <form action="/save_user" method="post">
+            <input type="text" name="name" id="name" placeholder="Введите имя пользователя" size="40"
+            class="form-control"> <br>
+            <p class="lead">Придумайте пароль</p>
+            <input type="password" name="pass" id="pass" maxlength="4" size="40"
+                   class="form-control"> <br>
+            <p class="lead">Введите ваш возраст</p>
+            <input type="text" name="age" id="age" size="20"
+                   class="form-control"> <br>
+            <button class="btn btn-warning"> Добавить пользователя</button>
+        </form>
+    </main>
+
+<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+{{ template "footer"}}
+
+{{ end }}
